@@ -1,0 +1,23 @@
+# Deployment configuration for our app
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kube-lab-deployment  # Name of this deployment
+  labels:
+    app: kube-lab  # Label for organizing resources
+spec:
+  replicas: 2  # We want 2 copies (pods) of our app running
+  selector:
+    matchLabels:
+      app: kube-lab  # This must match the pod labels below
+  template:
+    metadata:
+      labels:
+        app: kube-lab  # Label for the pods
+    spec:
+      containers:
+      - name: kube-lab-container  # Name of the container
+        image: lab_project:v1  # Our Docker image
+        imagePullPolicy: Never  # Use local image, don't pull from registry
+        ports:
+        - containerPort: 8080  # Port our app listens on
